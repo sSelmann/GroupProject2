@@ -29,7 +29,6 @@ public class Users {
     public int amountAccount1;
     public int accountNumber2;
     public int amountAccount2;
-    public static int sayac=0;
 
 
 
@@ -339,14 +338,14 @@ public class Users {
  public void transfer(Users user1, Users users2) {
      Scanner oku=new Scanner(System.in);
      Scanner okuInt=new Scanner(System.in);
-     System.out.print("Do you want to transfer between your accounts or different user");
+     System.out.print("Do you want to transfer between your accounts or different user: ");
      String cevap=oku.next();
      if (cevap.equals("own")) {
-         System.out.print("ne kadar yatırmak istiyorsunuz ?");
+         System.out.print("How much do you want to deposit: ");
          int amount=okuInt.nextInt();
          Account.transferToOwnAccount(user1,amount);
      } else {
-         System.out.print("ne kadar yatırmak istiyorsunuz ?");
+         System.out.print("How much do you want to deposit: ");
          int amount=okuInt.nextInt();
          Account.transferOtherUser(user1,users2,amount);
      }
