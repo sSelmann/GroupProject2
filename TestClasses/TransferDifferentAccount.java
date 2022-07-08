@@ -1,15 +1,18 @@
 package TestClasses;
 
 import bankAccount.Users;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
+import java.util.Scanner;
 
 public class TransferDifferentAccount {
 
     public static void main(String[] args) {
 
-        Users u1 = new Users("David" , "Villa", "10/02/2000", "married" ,1000 , 2000);
+        Users u1 = new Users("Christiano" , "Ronaldo", "10/02/2000", "married" ,1000 , 2000);
 
-        Users u2 = new Users("Xavi" , "Hernandes", "11/12/1998", "single" ,3000 , 2000);
-
+        Users u2 = new Users("Leonel" , "Messi", "11/12/1998", "single" ,3000 , 2000);
+        u1.CheckMariageStatus();
         u1.transfer(u1,u2);
 
         System.out.println(u1.toString());
@@ -30,9 +33,6 @@ public class TransferDifferentAccount {
        Enter amount of money you want to enter
         200
     */
-
-
-
 
 
     /*

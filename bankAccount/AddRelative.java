@@ -8,7 +8,22 @@ public class AddRelative {
      */
     //--------------------------------------------------------------------------------------------------
 
+    public String fullName;
+    public String age;
 
+    public AddRelative(String fullName, String age) {
+        this.fullName = fullName;
+        setAge(age);
+    }
+
+    public void setAge(String age) {
+        this.fullName = fullName;
+        if (relativeAgeChecker(age)){
+            this.age=age;
+        } else {
+            this.age="0";
+        }
+    }
 
 
     //--------------------------------------------------------------------------------------------------
@@ -69,6 +84,13 @@ public class AddRelative {
     //--------------------------------------------------------------------------------------------------
 
 
+    public boolean relativeAgeChecker(String relativeAge){
+        String result = Users.checkAge(relativeAge);
+        if(result.equals("You can get a credit card")){
+            return true;
+        }
+        return false;
+    }
 
 
 

@@ -13,12 +13,15 @@ public class Account {
 
     /* ---  iki int olan  (int accountAmount , int amountToAdd) parametresi ve return tipi int olan
            deposit isminde bir static method oluşturun.
-        -- accountAmount a  amountToAdd ekle
+        -- accountAmount'a  amountToAdd ekle
      */
 
     //------------------------------------------------------------------------------------------------
 
-
+    public static int deposit(int accountAmount , int amountToAdd){
+        accountAmount+=amountToAdd;
+        return accountAmount;
+    }
 
 
    //--------------------------------------------------------------------------------------------------
@@ -38,7 +41,10 @@ public class Account {
     //--------------------------------------------------------------------------------------------------
 
 
-
+    public static int withDraw(int accountAmount , int withdrawAmount){
+        accountAmount-=withdrawAmount;
+        return accountAmount;
+    }
 
 
 
@@ -66,6 +72,18 @@ public class Account {
         After the transaction receivingUser amountAccount1 should have 298 dollor
 
      */
+
+    public static String transferOtherUser(Users sendingUser,Users receivingUser,int transferAmount) {
+        if (transferAmount>sendingUser.amountAccount1) {
+            return "Sender is poor";
+        }else {
+            int yuzde2=(int)(transferAmount*0.02);
+            transferAmount-=yuzde2;
+            sendingUser.amountAccount1=withDraw(sendingUser.amountAccount1,transferAmount);
+            sendingUser.amountAccount2=deposit(receivingUser.amountAccount1,transferAmount);
+            return "Transaction is completed successfully";
+        }
+    }
 
 
      /* ---  iki tane Users(sendingUser , receivingUser) parametresi ve bir tane int (transferAmount)
@@ -113,6 +131,20 @@ public class Account {
         return Transaction is completed successfully
 
      */
+
+        public static String transferToOwnAccount(Users usr, int transferAmount) {
+            if (transferAmount>usr.amountAccount2) {
+                return "You need more money dude";
+            }else {
+                int yuzde2=(int)(transferAmount*0.01);
+                transferAmount-=yuzde2;
+                usr.amountAccount1=withDraw(usr.amountAccount1,transferAmount);
+                usr.amountAccount2=deposit(usr.amountAccount2,transferAmount);
+                usr.isTransferedSuceesfully="successfully";
+                System.out.println("Transaction is completed successfully");
+                return usr.isTransferedSuceesfully;
+            }
+        }
 
 
     /*

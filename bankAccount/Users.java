@@ -1,7 +1,11 @@
 package bankAccount;
 
 
-
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Users {
 
@@ -14,6 +18,21 @@ public class Users {
         all public
      */
 
+    public String name;
+    public String password;
+    public String dateOfBirth;
+    public String marrigeStatus;
+    public String relativeName;
+    public String relativeAge;
+    public String isTransferedSuceesfully;
+    public int accountNumber;
+    public int amountAccount1;
+    public int accountNumber2;
+    public int amountAccount2;
+    public static int sayac=0;
+
+
+
 
     /*
     --String name ,password, dateOfBirth, marriageStatus,  relativeName, relativeAge, isTransferedSuceesfully  değişkenlerini oluşturun.
@@ -22,33 +41,25 @@ public class Users {
      */
     //--------------------------------------------------------------------------------------------------
 
+    public Users(String name, String password, String dateOfBirth, String marrigeStatus, int amountAccount1,int amountAccount2) {
+        this.name = name;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.marrigeStatus = marrigeStatus;
+        this.amountAccount1 = amountAccount1;
+        this.amountAccount2 = amountAccount2;
+        accountNumber = randomNumberCreader();
+        accountNumber2 = randomNumberCreader();
+    }
+
+    public int randomNumberCreader() {
+        Random rnd=new Random();
+        int randomSayi=rnd.nextInt(99999999-10000000)+10000000;
+        return randomSayi;
+    }
 
 
-
-
-
-    //--------------------------------------------------------------------------------------------------
-    /*
-    Create a constructor
-    Parameters are String name , passwod , dateOfBirth , marriageStatus
-    Int amountAccount1 , amountAccount2
-
-    variable name equal to parameter name
-    same for password
-    same for amountAccount1
-    same for amountAccount2
-
-    Following also in the constructor
-
-    variable accountNumber get the the number from the  randomNumberCreader method
-    variable accountNumber2 get the the number from the  randomNumberCreader method
-    variable marriageStatus equal to CheckMariageStatus method return
-    variable dateOfBirth equal to checkAge return
-
-     */
-
-
-    /*
+/*
     --Parametreleri String name , passwod , dateOfBirth , marriageStatus ve
       Int amountAccount1 , amountAccount2 olan constructor oluşturun
 
@@ -63,7 +74,6 @@ public class Users {
     -- variable dateOfBirth  checkAge  methodunun return una eşittir
      */
     //--------------------------------------------------------------------------------------------------
-
 
 
 
@@ -99,8 +109,37 @@ public class Users {
         If the user say No
         then no need to add anything.
      */
+    public String CheckMariageStatus(){
 
+        String res = "";
 
+        if(marrigeStatus.equals("married")){
+            Scanner dp = new Scanner(System.in);
+            System.out.println("Do you want to add add your relative?");
+            String answer = dp.nextLine();
+            if(answer.equalsIgnoreCase("Yes")){
+                System.out.println("What is your relative name?");
+                String rname = dp.nextLine();
+                System.out.println("Date of birth relative?");
+                String age = dp.nextLine();
+                AddRelative a1 = new AddRelative(rname , age);
+                relativeName =a1.fullName;
+                relativeAge = a1.age;
+
+                res= "Transaction done successfully";
+
+                if(relativeAge.equals("0")){
+                    relativeName = "Relative should be more then 18 years old";
+                    relativeAge = "Relative should be more then 18 years old";
+                    res= "Relative should be more then 18 years old";
+                }
+
+            }else{
+                res =  "Not able to add relative";
+            }
+        }
+        return res;
+    }
     /*
 
        -- Parametresi String(marriageStatus) ve return  tipi String olan CheckMariageStatus methodunu oluşturun
@@ -161,12 +200,59 @@ public class Users {
 
     */
 
+    public static String checkAge(String age){
+
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String text = date.format(formatters);
+        LocalDate today = LocalDate.parse(text, formatters);
+
+        LocalDate myAge = LocalDate.parse(age, formatters);
+
+        int num = today.compareTo(LocalDate.parse(age, formatters));
+
+        String result ="";
+
+        if(num>18){
+
+            result = "You can get a credit card";
+
+        }else if(num < 18){
+
+            result = "You should be at least 18 years old to get a credit card.";
+
+        } else if(num==18){
+
+            if( today.getMonthValue()>myAge.getMonthValue()){
+
+                result = "You can get a credit card";
+
+            }else if(today.getMonthValue()<myAge.getMonthValue()){
+
+                result = "You should be at least 18 years old to get a credit card.";
+
+            }else if(today.getMonthValue()==myAge.getMonthValue()){
+
+                if(today.getDayOfMonth()>myAge.getDayOfMonth()){
+
+                    result = "You can get a credit card";
+
+                }else {
+
+                    result =  "You should be at least 18 years old to get a credit card.";
+                }
+            }
+        }
+
+        return result;
+
+    }
 
     /*
 
         -- Parametresi String(myDOB) ve return  tipi String olan checkAge static methodunu oluşturun
 
-        -- taday date i myDOB ile karşılaştır
+        -- today date i myDOB ile karşılaştır
 
         -- Eğer compare to today date 18 ise "You can get a credit card" et
 
@@ -250,7 +336,21 @@ public class Users {
 //--------------------------------------------------------------------------------------------------
 
 
-
+ public void transfer(Users user1, Users users2) {
+     Scanner oku=new Scanner(System.in);
+     Scanner okuInt=new Scanner(System.in);
+     System.out.print("Do you want to transfer between your accounts or different user");
+     String cevap=oku.next();
+     if (cevap.equals("own")) {
+         System.out.print("ne kadar yatırmak istiyorsunuz ?");
+         int amount=okuInt.nextInt();
+         Account.transferToOwnAccount(user1,amount);
+     } else {
+         System.out.print("ne kadar yatırmak istiyorsunuz ?");
+         int amount=okuInt.nextInt();
+         Account.transferOtherUser(user1,users2,amount);
+     }
+ }
 
 
 
@@ -266,8 +366,22 @@ public class Users {
 
      */
 
-
-    /*
+    @Override
+    public String toString() {
+        return "\n" +
+                " name=" + name +"\n" +
+                " password=" + password +"\n" +
+                " dateOfBirth=" + dateOfBirth +"\n" +
+                " marrigeStatus=" + marrigeStatus +"\n" +
+                " relativeName=" + relativeName + "\n" +
+                " relativeAge=" + relativeAge +"\n" +
+                " isTransferedSuceesfully=" + isTransferedSuceesfully +"\n" +
+                " accountNumber=" + accountNumber +"\n"+
+                " amountAccount1=" + amountAccount1 +"\n"+
+                " accountNumber2=" + accountNumber2 +"\n"+
+                " amountAccount2=" + amountAccount2;
+    }
+/*
 
        toString methodunu kullanarak objecti print et
 
